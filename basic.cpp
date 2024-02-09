@@ -12,10 +12,16 @@ void basic(int x, int n, int maxPos, int minPos){
     ofstream cashflow("daily_cashflow.csv");
     ofstream order("order_statistics.csv");
 
+    cashflow << "Date,Cashflow\n";
+    order << "Date,Order_dir,Quantity,Price\n";
+
     if(!file.is_open()){
         cout << "error anup : could not open file!" << endl;
     }
 
+    queue <double> bought;
+    queue <double> sold;
+    
     int money = 0;
 
     //setting flags
@@ -120,8 +126,8 @@ void basic(int x, int n, int maxPos, int minPos){
                     // cout << "datee: " << date << " " << "price: " << price << endl; 
                     x++;
                     money = money - price;
-                    string w =  "BUY" ;
-                    w = w +" " + to_string(money) + " " + to_string(1) + "\n";
+                    string w =  date + ",BUY" ;
+                    w = w + "," + to_string(1) + ","  + to_string(price) +  "\n";
                     order << w;
 
                 }
@@ -130,8 +136,8 @@ void basic(int x, int n, int maxPos, int minPos){
                     // cout << "datee: " << date << " " << "price: " << price << endl; 
                     x--;
                     money = money + price;
-                    string w =  "BUY" ;
-                    w = w +" " + to_string(money) + " " + to_string(1) + "\n";
+                    string w =  date + ",SELL" ;
+                    w = w + "," + to_string(1) +  "," + to_string(price)  + "\n";
                     order << w;
                     // cout << "SELL" << " " << days << " " << x << endl;
                 }
@@ -139,7 +145,7 @@ void basic(int x, int n, int maxPos, int minPos){
 
         }
         prevPrice = price;
-        string w2 = to_string(money) + "\n";
+        string w2 = date + "," + to_string(money) + "\n";
         cashflow << w2;
     }
 
@@ -156,14 +162,14 @@ void basic(int x, int n, int maxPos, int minPos){
 }
 
 
-int main(){
+int main(int argc, char *argv[]){
 
-    int n = 3;
-    int x = 0;
-    int maxPos = 2;
-    int minPos = -2;
+    int x = stoi(argv[1]);
+    int n = stoi(argv[2]);
+    int maxPos = x;
+    int minPos = -x;
 
-    basic(x,n,maxPos,minPos);
+    basic(0,n,maxPos,minPos);
     
     return 0;
 }

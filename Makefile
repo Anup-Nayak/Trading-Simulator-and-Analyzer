@@ -7,15 +7,12 @@ x := X
 start_date := STARTDATE 
 end_date := ENDDATE 
 
-setup: requirements.txt
-	pip install -r requirements.txt
-
-run: setup
+run: 
 	python3 main.py $(symbol) $(start_date) $(end_date) $(n)
-	ifeq ($(strategy),BASIC)
-        g++ basic.cpp -o a.exe
-        ./a.exe
-    endif
+	
+	g++ decider.cpp -o a.exe
+	./a.exe $(strategy) $(x) $(n)
+	
 
 clean:
 	rm -rf $(SYMBOL).*

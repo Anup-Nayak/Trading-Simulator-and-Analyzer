@@ -31,6 +31,12 @@ header = ['DATE','CLOSE']
 
 
 df = df.loc[:,header]
+df = df.iloc[::-1]
+
+df['DATE'] = pd.to_datetime(df['DATE'])
+
+# Change date format to DD/MM/YYYY
+df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
 
 #csv file
 df.to_csv(file_name, index=False)
