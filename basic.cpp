@@ -21,7 +21,7 @@ void basic(int x, int n, int maxPos, int minPos){
 
     queue <double> bought;
     queue <double> sold;
-    
+
     int money = 0;
 
     //setting flags
@@ -42,7 +42,8 @@ void basic(int x, int n, int maxPos, int minPos){
 
     double prevPrice = stod(p);
     int days = 1;
-
+    double price = 0;
+    
     for(int i=0;i<n-1;i++){
         getline(file,line);
         istringstream oneline(line);
@@ -123,26 +124,31 @@ void basic(int x, int n, int maxPos, int minPos){
         if (days >= n){
             if(incFlag){
                 if(x < maxPos){
-                    // cout << "datee: " << date << " " << "price: " << price << endl; 
                     x++;
+                    if(sold.empty()){
+                        bought.push(price);
+                    }else{
+                        sold.pop();
+                    }
                     money = money - price;
                     string w =  date + ",BUY" ;
                     w = w + "," + to_string(1) + ","  + to_string(price) +  "\n";
                     order << w;
-
                 }
             }else if (decFlag){
                 if (x > minPos){
-                    // cout << "datee: " << date << " " << "price: " << price << endl; 
                     x--;
+                    if(bought.empty()){
+                        sold.push(price);
+                    }else{
+                        bought.pop();
+                    }
                     money = money + price;
                     string w =  date + ",SELL" ;
                     w = w + "," + to_string(1) +  "," + to_string(price)  + "\n";
                     order << w;
-                    // cout << "SELL" << " " << days << " " << x << endl;
                 }
             }
-
         }
         prevPrice = price;
         string w2 = date + "," + to_string(money) + "\n";
@@ -150,14 +156,24 @@ void basic(int x, int n, int maxPos, int minPos){
     }
 
     file.close();
-    if (money != 0) {
-        money = 0;
-    }
-    string w2 = to_string(money) + "\n";
-    cashflow << w2;
+    
 
     cashflow.close();
     order.close();
+
+    if(!(bought.empty() and sold.empty())){
+        while(!bought.empty()){
+            money = money + price ;
+            bought.pop();
+        }
+        while(!sold.empty()){
+            money = money - price ;
+            sold.pop();
+        }
+    }
+    ofstream final("final_pnl.txt");
+    final << to_string(money);
+    final.close();
 
 }
 
