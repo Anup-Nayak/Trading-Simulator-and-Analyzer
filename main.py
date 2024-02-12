@@ -40,7 +40,7 @@ if(strategy == "LINEAR_REGRESSION"):
 else:
 
     sdate = datetime.strptime(startDate, "%d/%m/%Y").date()
-    start_date = sdate - timedelta(days = n)
+    start_date = sdate - timedelta(days = 10*n)
 
     end_date = datetime.strptime(endDate, "%d/%m/%Y").date()
 

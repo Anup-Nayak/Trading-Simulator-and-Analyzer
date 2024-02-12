@@ -7,7 +7,7 @@
 
 using namespace std;
 
-void basic(int x, int n, int maxPos, int minPos){
+void basic(int x, int n, int maxPos, int minPos, string start_date){
     ifstream file("data.csv");
     ofstream cashflow("daily_cashflow.csv");
     ofstream order("order_statistics.csv");
@@ -22,7 +22,7 @@ void basic(int x, int n, int maxPos, int minPos){
     queue <double> bought;
     queue <double> sold;
 
-    int money = 0;
+    double money = 0;
 
     //setting flags
     bool incFlag = false;
@@ -44,12 +44,9 @@ void basic(int x, int n, int maxPos, int minPos){
     int days = 1;
     double price = 0;
     
-    for(int i=0;i<n-1;i++){
+    while(date != start_date){
         getline(file,line);
         istringstream oneline(line);
-
-        string date;
-        string p;
 
         getline(oneline, date, ',');
         getline(oneline, p,'\n');
@@ -87,9 +84,6 @@ void basic(int x, int n, int maxPos, int minPos){
 
     while(getline(file, line)){
         istringstream oneline(line);
-
-        string date;
-        string p;
 
         getline(oneline, date, ',');
         getline(oneline, p,'\n');
@@ -182,10 +176,12 @@ int main(int argc, char *argv[]){
 
     int x = stoi(argv[1]);
     int n = stoi(argv[2]);
+    string start_date = argv[3];
+    // cout << "hi" << endl;
     int maxPos = x;
     int minPos = -x;
 
-    basic(0,n,maxPos,minPos);
+    basic(0,n,maxPos,minPos,start_date);
     
     return 0;
 }

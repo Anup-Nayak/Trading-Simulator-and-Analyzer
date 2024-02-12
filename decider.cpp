@@ -10,14 +10,14 @@ int main(int argc, char *argv[]){
     string x =  argv[2];
     string n = argv[3];
     string p = argv[4];
-
+    string start_date = argv[5];
     if(strategy == "BASIC"){
         system("g++ basic.cpp -o a.exe");
-        string c = "./a.exe " + x + " " + n;
+        string c = "./a.exe " + x + " " + n + " " + start_date;
         system(c.c_str());
     }else if(strategy == "DMA"){
         system("g++ dma.cpp -o a.exe");
-        string c = "./a.exe " + x + " " + n + " " + p;
+        string c = "./a.exe " + x + " " + n + " " + p + " " + start_date;
         system(c.c_str());
 
     }else{

@@ -14,7 +14,7 @@ run:
 	python3 main.py $(symbol) $(start_date) $(end_date) $(n) $(strategy) $(train_start_date) $(train_end_date) $(p)
 	
 	g++ decider.cpp -o a.exe
-	./a.exe $(strategy) $(x) $(n) $(p)
+	./a.exe $(strategy) $(x) $(n) $(p) $(start_date)
 	
 
 clean:

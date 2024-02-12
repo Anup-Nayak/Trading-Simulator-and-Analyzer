@@ -7,7 +7,7 @@
 
 using namespace std;
 
-void dma(int x, double n, double p,int maxPos, int minPos){
+void dma(int x, int n, double p,int maxPos, int minPos, string start_date){
     ifstream file("data.csv");
     ofstream cashflow("daily_cashflow.csv");
     ofstream order("order_statistics.csv");
@@ -25,7 +25,7 @@ void dma(int x, double n, double p,int maxPos, int minPos){
     queue <double> n_days_data;
    
 
-    int money = 0;
+    double money = 0;
 
     //setting flags
     bool incFlag = false;
@@ -55,12 +55,9 @@ void dma(int x, double n, double p,int maxPos, int minPos){
     double sellprice = 0;
 
 
-    for(int i=0;i<n-1;i++){
+    while(date != start_date){
         getline(file,line);
         istringstream oneline(line);
-
-        string date;
-        string p1;
 
         getline(oneline, date, ',');
         getline(oneline, p1,'\n');
@@ -158,12 +155,14 @@ void dma(int x, double n, double p,int maxPos, int minPos){
 int main(int argc, char *argv[]){
 
     int x = stoi(argv[1]);
-    double n = stoi(argv[2]);
+    int n = stoi(argv[2]);
     double p = stoi(argv[3]);
+    string start_date = argv[4];
+
     int maxPos = x;
     int minPos = -x;
 
-    dma(0,n,p,maxPos,minPos);
+    dma(0,n,p,maxPos,minPos,start_date);
     
     return 0;
 }
