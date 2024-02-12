@@ -7,6 +7,36 @@
 
 using namespace std;
 
+bool checkDate(string &start, string &end){
+    //DD/MM/YYYY
+    int year1 = stoi(start.substr(6,4));
+    int year2 = stoi(end.substr(6,4));
+    int month1 = stoi(start.substr(3,2));
+    int month2 = stoi(end.substr(3,2));
+    int day1 = stoi(start.substr(0,2));
+    int day2 = stoi(end.substr(0,2));
+
+    if(year1 > year2){
+        return true;
+    }else if(year1 < year2){
+        return false;
+    }else{
+        if(month1 > month2){
+            return true;
+        }else if(month1 < month2){
+            return false;
+        }else{
+            if(day1 > day2){
+                return true;
+            }else if(day1 < day2){
+                return false;
+            }else{
+                return false;
+            }
+        }
+    }
+}
+
 void dma(int x, int n, double p,int maxPos, int minPos, string start_date){
     ifstream file("data.csv");
     ofstream cashflow("daily_cashflow.csv");
@@ -53,32 +83,39 @@ void dma(int x, int n, double p,int maxPos, int minPos, string start_date){
     double queue_front = 0 ;
     double buyprice = 0 ;
     double sellprice = 0;
+    int iter = 0 ;
 
-
-    while(date != start_date){
+    while(checkDate(start_date,date)){
         getline(file,line);
         istringstream oneline(line);
 
         getline(oneline, date, ',');
         getline(oneline, p1,'\n');
 
-        double price = stod(p1);
+        price = stod(p1);
 
         n_days_data.push(price);
         sum += price ;
         sum_sq += pow(price,2);
-
+        mean = sum / n;
+        var = sum_sq - pow(mean,2);
+        stand = sqrt(var);
+        if(iter > n-2){
+        queue_front = n_days_data.front();
+        sum -= queue_front ;
+        sum_sq -= pow(queue_front,2);
+        n_days_data.pop() ;
+        }
+        iter++ ;
     }
 
     while(getline(file, line)){
         istringstream oneline(line);
 
-        string date;
-        string p1;
         getline(oneline, date, ',');
         getline(oneline, p1,'\n');
 
-        double price = stod(p1);
+        price = stod(p1);
      
         n_days_data.push(price);
         sum += price ;
@@ -127,6 +164,8 @@ void dma(int x, int n, double p,int maxPos, int minPos, string start_date){
         sum -= queue_front ;
         sum_sq -= pow(queue_front,2);
         n_days_data.pop() ;
+
+        
     }
 
     file.close();
