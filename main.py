@@ -36,7 +36,25 @@ if(strategy == "LINEAR_REGRESSION"):
 
     #csv file
     df.to_csv(train_file, index=False)
-    
+elif (strategy == "MACD"):
+    start_date = datetime.strptime(startDate, "%d/%m/%Y").date()
+    end_date = datetime.strptime(endDate, "%d/%m/%Y").date()
+
+    df = nse.stock_df(stock_name,start_date,end_date)
+
+    header = ['DATE','CLOSE']
+
+
+    df = df.loc[:,header]
+    df = df.iloc[::-1]
+
+    df['DATE'] = pd.to_datetime(df['DATE'])
+
+    # Change date format to DD/MM/YYYY
+    df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
+
+    #csv file
+    df.to_csv(file_name, index=False)
 else:
 
     sdate = datetime.strptime(startDate, "%d/%m/%Y").date()

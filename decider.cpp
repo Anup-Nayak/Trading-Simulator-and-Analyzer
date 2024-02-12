@@ -21,6 +21,16 @@ int main(int argc, char *argv[]){
         string c = "./a.exe " + x + " " + n + " " + p + " " + start_date;
         system(c.c_str());
         // cout << "why2" << endl;
+    }else if(strategy == "MACD"){
+        system("g++ macd.cpp -o a.exe");
+        string c = "./a.exe " + x ;
+        system(c.c_str());
+        // cout << "why2" << endl;
+    }else if(strategy == "LINEAR_REGRESSION"){
+        system("g++ linear.cpp -o a.exe");
+        string c = "./a.exe " ;
+        system(c.c_str());
+        // cout << "why2" << endl;
     }else{
         cout << "why" << endl;
     }
