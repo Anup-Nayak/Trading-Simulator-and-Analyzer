@@ -21,7 +21,6 @@ int main(int argc, char *argv[]){
         string c = "./a.exe " + x + " " + n + " " + p + " " + start_date;
         system(c.c_str());
         // cout << "why2" << endl;
-
     }else{
         cout << "why" << endl;
     }

@@ -269,7 +269,7 @@ int main(int argc, char *argv[]){
     int x = stoi(argv[1]);
     int n = stoi(argv[2]);
     string start_date = argv[3];
-    // cout << "hi" << endl;
+    
     int maxPos = x;
     int minPos = -x;
 

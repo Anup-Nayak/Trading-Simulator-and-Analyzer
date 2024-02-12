@@ -57,10 +57,7 @@ void dma(int x, int n, double p,int maxPos, int minPos, string start_date){
 
     double money = 0;
 
-    //setting flags
-    bool incFlag = false;
-    bool decFlag = false;
-
+   
     string line;
     getline(file, line); //header
     getline(file,line); //first entry
@@ -108,6 +105,56 @@ void dma(int x, int n, double p,int maxPos, int minPos, string start_date){
         }
         iter++ ;
     }
+      
+     price = stod(p1);
+     
+        n_days_data.push(price);
+        sum += price ;
+        sum_sq += pow(price,2);
+        
+        mean = sum / n;
+        var = (sum_sq/n) - pow(mean,2);
+        stand = sqrt(var);
+
+        buyprice  = mean + p*stand ;
+        sellprice = mean - p*stand ;
+
+            if( price >= buyprice ){
+                if(x < maxPos){
+                    x++;
+                    if(sold.empty()){
+                        bought.push(price);
+                    }else{
+                        sold.pop();
+                    }
+                    money = money - price;
+                    string w =  date + ",BUY" ;
+                    w = w + "," + to_string(1) + ","  + to_string(price) +  "\n";
+                    order << w;
+                }
+            }else if ( price <= sellprice ){
+                if (x > minPos){
+                    x--;
+                    if(bought.empty()){
+                        sold.push(price);
+                    }else{
+                        bought.pop();
+                    }
+                    money = money + price;
+                    string w =  date + ",SELL" ;
+                    w = w + "," + to_string(1) +  "," + to_string(price)  + "\n";
+                    order << w;
+                }
+            }
+       
+        prevPrice = price;
+        string w2 = date + "," + to_string(money) + "\n";
+        cashflow << w2;
+
+        queue_front = n_days_data.front();
+        sum -= queue_front ;
+        sum_sq -= pow(queue_front,2);
+        n_days_data.pop() ;
 
     while(getline(file, line)){
         istringstream oneline(line);
@@ -122,7 +169,7 @@ void dma(int x, int n, double p,int maxPos, int minPos, string start_date){
         sum_sq += pow(price,2);
         
         mean = sum / n;
-        var = sum_sq - pow(mean,2);
+       var = (sum_sq/n) - pow(mean,2);
         stand = sqrt(var);
 
         buyprice  = mean + p*stand ;
