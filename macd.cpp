@@ -51,7 +51,9 @@ void macd(int x, int maxPos, int minPos){
     double alpha_26 =  2.0/27.0 ;
     double Short_EWM = 0.0;
     double Long_EWM = 0.0;
-
+    
+    string w2 = date + "," + to_string(money) + "\n";
+    cashflow << w2;
 
     while(getline(file, line)){
 
@@ -66,11 +68,11 @@ void macd(int x, int maxPos, int minPos){
         price = stod(p);
         LEWM_t = alpha_26*(price - LEWM_0)+ LEWM_0 ;
         SEWM_t = alpha_12*(price - SEWM_0)+ SEWM_0 ;
-        MACD = Short_EWM - LEWM_t ;
-        Signal_t  = alpha_9*(price - MACD) + Signal_0;
+        MACD = SEWM_t - LEWM_t ;
+        Signal_t  = alpha_9*(MACD - Signal_t) + Signal_0;
       
-
-         if (MACD > Signal_t){
+           
+           if (MACD > Signal_t){
          
                 if(x < maxPos){
                     x++;
@@ -104,7 +106,7 @@ void macd(int x, int maxPos, int minPos){
         SEWM_0 =  SEWM_t ;
         Signal_0 = Signal_t ;
 
-        string w2 = date + "," + to_string(money) + "\n";
+        w2 = date + "," + to_string(money) + "\n";
         cashflow << w2;
     }
 
