@@ -58,14 +58,14 @@ if(strategy == "LINEAR_REGRESSION"):
     df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
 
     #csv file
-    df.to_csv("extra_data1.csv", index=False)
+    df.to_csv("extra_data1_lr.csv", index=False)
 
 
 
 
 
 
-    file_name = "data.csv"
+    file_name = "data_lr.csv"
 
     start_date = datetime.strptime(startDate, "%d/%m/%Y").date()
     # start_date = sdate - timedelta(days = 2)
@@ -98,12 +98,11 @@ if(strategy == "LINEAR_REGRESSION"):
     df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
 
     #csv file
-    df.to_csv("extra_data2.csv", index=False)
+    df.to_csv("extra_data2_lr.csv", index=False)
 
-    
 elif (strategy == "ADX"):
 
-    file_name = "data.csv"
+    file_name = "data_adx.csv"
 
     start_date = datetime.strptime(startDate, "%d/%m/%Y").date()
     # start_date = sdate - timedelta(days = 2)
@@ -136,7 +135,7 @@ elif (strategy == "ADX"):
     df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
 
     #csv file
-    df.to_csv("extra_data2.csv", index=False)
+    df.to_csv("extra_data2_adx.csv", index=False)
 
 elif (strategy == "MACD"):
     start_date = datetime.strptime(startDate, "%d/%m/%Y").date()
@@ -156,8 +155,7 @@ elif (strategy == "MACD"):
     df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
 
     #csv file
-    df.to_csv(file_name, index=False) 
-
+    df.to_csv("data_MACD.csv", index=False) 
 
 elif (strategy == "PAIRS"):
 
@@ -236,7 +234,8 @@ elif (strategy == "PAIRS"):
     #csv file
     df2.to_csv("extra_data2.csv", index=False)
 
-
+elif(strategy == "BEST_OF_ALL"):
+    print("yes")
 
 elif (strategy == "test"):
     
@@ -275,7 +274,6 @@ elif (strategy == "test"):
     #csv file
     df.to_csv("extra_data", index=False) 
 
-
 elif(strategy == "BASIC" or strategy == "DMA" or strategy == "DMA++" or strategy == "RSI" or strategy == "ADX") :
 
 
@@ -294,9 +292,12 @@ elif(strategy == "BASIC" or strategy == "DMA" or strategy == "DMA++" or strategy
     df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
 
     #csv file
-    df.to_csv("data.csv", index=False) 
+    file_name = "data_"+strategy+".csv"
+    df.to_csv(file_name, index=False) 
 
-    
+
+
+
 
     end_date = start_date - timedelta(days = 1)
     start_date = start_date - timedelta(days = 5*n)
@@ -311,7 +312,8 @@ elif(strategy == "BASIC" or strategy == "DMA" or strategy == "DMA++" or strategy
     df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
 
     #csv file
-    df.to_csv("extra_data.csv", index=False)
+    file_name = "extra_data_"+strategy+".csv"
+    df.to_csv(file_name, index=False)
 
 
 else:

@@ -9,10 +9,10 @@ using namespace std;
 
 
 
-void adx(int x, int n, int maxPos, int minPos, int adx_threshold){
+double adx(int x, int n, int maxPos, int minPos, int adx_threshold){
    
-    ifstream file("data.csv");
-    ifstream file1("extra_data2.csv") ;
+    ifstream file("data_ADX.csv");
+    ifstream file1("extra_data2_ADX.csv") ;
     ofstream cashflow("daily_cashflow.csv");
     ofstream order("order_statistics.csv");
 
@@ -268,7 +268,7 @@ void adx(int x, int n, int maxPos, int minPos, int adx_threshold){
     ofstream final("final_pnl.txt");
     final << to_string(money);
     final.close();
-
+    return money;
 }
 
 

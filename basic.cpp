@@ -7,39 +7,9 @@
 
 using namespace std;
 
-bool checkDate(string &start, string &end){
-    //DD/MM/YYYY
-    int year1 = stoi(start.substr(6,4));
-    int year2 = stoi(end.substr(6,4));
-    int month1 = stoi(start.substr(3,2));
-    int month2 = stoi(end.substr(3,2));
-    int day1 = stoi(start.substr(0,2));
-    int day2 = stoi(end.substr(0,2));
-
-    if(year1 > year2){
-        return true;
-    }else if(year1 < year2){
-        return false;
-    }else{
-        if(month1 > month2){
-            return true;
-        }else if(month1 < month2){
-            return false;
-        }else{
-            if(day1 > day2){
-                return true;
-            }else if(day1 < day2){
-                return false;
-            }else{
-                return false;
-            }
-        }
-    }
-}
-
-void basic(int x, int n, int maxPos, int minPos){
-    ifstream file("data.csv");
-    ifstream file2("extra_data.csv");
+double basic(int x, int n, int maxPos, int minPos){
+    ifstream file("data_BASIC.csv");
+    ifstream file2("extra_data_BASIC.csv");
     ofstream cashflow("daily_cashflow.csv");
     ofstream order("order_statistics.csv");
 
@@ -214,8 +184,9 @@ void basic(int x, int n, int maxPos, int minPos){
     final << to_string(money);
     final.close();
 
-}
+    return money;
 
+}
 
 int main(int argc, char *argv[]){
 

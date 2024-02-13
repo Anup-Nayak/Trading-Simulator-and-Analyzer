@@ -7,8 +7,8 @@
 
 using namespace std;
 
-void macd(int x, int maxPos, int minPos){
-    ifstream file("data.csv");
+double macd(int x, int maxPos, int minPos){
+    ifstream file("data_MACD.csv");
     ofstream cashflow("daily_cashflow.csv");
     ofstream order("order_statistics.csv");
 
@@ -129,9 +129,8 @@ void macd(int x, int maxPos, int minPos){
     ofstream final("final_pnl.txt");
     final << to_string(money);
     final.close();
-
+    return money;
 }
-
 
 int main(int argc, char *argv[]){
 

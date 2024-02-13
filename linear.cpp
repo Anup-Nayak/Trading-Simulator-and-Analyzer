@@ -19,7 +19,7 @@ void printMatrix(const vector<vector<double>>& vec) {
 
 vector <vector <double>> calculate_coefficients(vector<vector<double>> &y){
     ifstream file("train.csv");
-    ifstream file1("extra_data1.csv");
+    ifstream file1("extra_data1_lr.csv");
     vector <vector <double>> matrix;
     string line;
 
@@ -198,7 +198,7 @@ void matrix_inverse(vector<vector<double>> &A ,vector<vector<double>> &result){
 
 }
 
-void lr(int p,int x, int maxPos, int minPos){
+double lr(int p,int x, int maxPos, int minPos){
 
   ofstream cashflow("daily_cashflow.csv");
   ofstream order("order_statistics.csv");
@@ -253,8 +253,8 @@ void lr(int p,int x, int maxPos, int minPos){
   double b7 = coeff[6];
 
 
-  ifstream file("data.csv");
-  ifstream file1("extra_data2.csv");
+  ifstream file("data_lr.csv");
+  ifstream file1("extra_data2_lr.csv");
   vector <vector <double>> matrix;
   string line;
 
@@ -381,7 +381,7 @@ void lr(int p,int x, int maxPos, int minPos){
   ofstream final("final_pnl.txt");
   final << to_string(money);
   final.close();
-
+    return money;
   
 }
 
@@ -391,7 +391,7 @@ int main(int argc, char *argv[]){
   int x = stoi(argv[2]);
   int maxPos = x;
   int minPos = -x;
-  lr(p,x,maxPos,minPos);
+  lr(p,0,maxPos,minPos);
 return 0;
 
 }

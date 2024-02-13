@@ -7,38 +7,10 @@
 
 using namespace std;
 
-bool checkDate(string &start, string &end){
-    //DD/MM/YYYY
-    int year1 = stoi(start.substr(6,4));
-    int year2 = stoi(end.substr(6,4));
-    int month1 = stoi(start.substr(3,2));
-    int month2 = stoi(end.substr(3,2));
-    int day1 = stoi(start.substr(0,2));
-    int day2 = stoi(end.substr(0,2));
 
-    if(year1 > year2){
-        return true;
-    }else if(year1 < year2){
-        return false;
-    }else{
-        if(month1 > month2){
-            return true;
-        }else if(month1 < month2){
-            return false;
-        }else{
-            if(day1 > day2){
-                return true;
-            }else if(day1 < day2){
-                return false;
-            }else{
-                return false;
-            }
-        }
-    }
-}
-
-void rsi(int x, int n, int maxPos, int minPos, string start_date,int  oversold_threshold,int overbought_threshold){
-    ifstream file("data.csv");
+double rsi(int x, int n, int maxPos, int minPos, string start_date,int  oversold_threshold,int overbought_threshold){
+     ifstream file("data_RSI.csv");
+    ifstream file2("extra_data_RSI.csv");
     ofstream cashflow("daily_cashflow.csv");
     ofstream order("order_statistics.csv");
 
@@ -48,26 +20,43 @@ void rsi(int x, int n, int maxPos, int minPos, string start_date,int  oversold_t
     if(!file.is_open()){
         cout << "error anup : could not open file!" << endl;
     }
-   
-    queue <double> bought;
-    queue <double> sold;
-    queue <double> loss_q ;
-    queue <double> gain_q ;
-    double money = 0;
-   
+  
 
     string line;
     getline(file, line); //header
-    getline(file,line); //first entry
+    getline(file2,line); 
+
+    vector<string> extra_data;
+
+    for(int i=0;i<n;i++){
+        getline(file2,line);
+        istringstream oneline(line);
+
+        string date;
+        string p;
+
+        getline(oneline, date, ',');
+        getline(oneline, p,'\n');
+
+        extra_data.push_back(p);
+    }
+
+    reverse(extra_data.begin(),extra_data.end());
 
     istringstream oneline(line);
 
     string date;
     string p1;
-  
+
     getline(oneline, date, ',');
     getline(oneline, p1,'\n');
-     
+
+    queue <double> bought;
+    queue <double> sold;
+    queue <double> loss_q ;
+    queue <double> gain_q ;
+    double money = 0;
+    
     double prevPrice = stod(p1);
     int days = 1;
     double price = 0;
@@ -84,130 +73,33 @@ void rsi(int x, int n, int maxPos, int minPos, string start_date,int  oversold_t
     
     int iter = 0 ;
    
-    while(checkDate(start_date,date)){
-      
-        getline(file,line);
-        istringstream oneline(line);
+     for(int i=1;i<n;i++){
 
-        getline(oneline, date, ',');
-        getline(oneline, p1,'\n');
-
-        price = stod(p1);
+        price = stod(extra_data[i]);
+       
         gain = 0 ;
         loss = 0 ;
         
         if( price - prevPrice > 0 ){
-           gain =  price - prevPrice ;
-     
+           gain =  price - prevPrice ; 
         }
         if(  prevPrice - price > 0 ){
             loss = prevPrice - price  ;
-     
+    
         }
-       
-        // cout<<price<<" "<< prevPrice<<" "<<gain<<" "<<loss<<endl ;
+          
         gain_sum += gain ;
         loss_sum += loss ;
         avgGain = gain_sum/n ;
         avgLoss = loss_sum/n ;
         gain_q.push(gain);
-        loss_q.push(loss) ;
-           
-        if(iter > n-2  &&  checkDate(start_date,date)){
-
-          queue_front1 = gain_q.front();
-          queue_front2 = loss_q.front();
-          gain_sum -= queue_front1 ;
-          loss_sum -= queue_front2 ;
-          gain_q.pop() ;
-          loss_q.pop() ;
-      
-
-        }
-
-        iter++ ;
-
-        if( checkDate(start_date,date)){
-             prevPrice = price;
-        }
-         
+        loss_q.push(loss) ;   
+        prevPrice = price ;    
     }
        
 
            
-    //    price = stod(p1);
-
-    //     gain = 0 ;
-    //     loss = 0 ;
-
-    //     if( price - prevPrice > 0 ){
-    //         gain =  price - prevPrice ;
-     
-    //     }
-        // if( prevPrice - price < 0 ){
-        //     loss =  prevPrice - price ;
-     
-        // }
-        // if(  prevPrice > price ){
-        //     loss =   prevPrice - price ;
-     
-        // }
-       
-
-        // gain_sum += gain ;
-        // loss_sum += loss ;
-
-        // gain_q.push(gain);
-        // loss_q.push(loss) ;
-        
-        // avgGain = gain_sum/n ;
-        // avgLoss = loss_sum/n ;
-        // cout<<avgGain<<" "<<avgLoss<<endl ;
-
-        RS = avgGain/avgLoss ;
-        //    cout<<RS<<endl; 
-        RSI = 100.0*((RS)/(1.0+RS)) ;
-            //  cout<<RSI<<endl; 
-            //    cout<<endl ;
-            //   // cout<<price<<" "<< prevPrice<<" "<<gain<<" "<<loss<<endl ;
-            //     cout<<endl ;
-            if( RSI < oversold_threshold){
-                if(x < maxPos){
-                    x++;
-                    if(sold.empty()){
-                        bought.push(price);
-                    }else{
-                        sold.pop();
-                    }
-                    money = money - price;
-                    string w =  date + ",BUY" ;
-                    w = w + "," + to_string(1) + ","  + to_string(price) +  "\n";
-                    order << w;
-                }
-            }else if ( RSI > overbought_threshold){
-                if (x > minPos){
-                    x--;
-                    if(bought.empty()){
-                        sold.push(price);
-                    }else{
-                        bought.pop();
-                    }
-                    money = money + price;
-                    string w =  date + ",SELL" ;
-                    w = w + "," + to_string(1) +  "," + to_string(price)  + "\n";
-                    order << w;
-                }
-            }
-        queue_front1 = gain_q.front();
-        queue_front2 = loss_q.front();
-        gain_sum -= queue_front1 ;
-        loss_sum -= queue_front2 ;
-        gain_q.pop() ;
-        loss_q.pop() ;
-
-        prevPrice = price;
-        string w2 = date + "," + to_string(money) + "\n";
-        cashflow << w2;
+    
         
     while(getline(file, line)){
         istringstream oneline(line);
@@ -224,16 +116,12 @@ void rsi(int x, int n, int maxPos, int minPos, string start_date,int  oversold_t
             gain =  price - prevPrice ;
      
         }
-        // if( prevPrice - price < 0 ){
-        //     loss =  prevPrice - price ;
-     
-        // }
+        
         if(  prevPrice > price ){
             loss =  prevPrice - price ;
      
         }
            
-        //   cout<<price<<" "<< prevPrice<<" "<<gain<<" "<<loss<<endl ;
 
         gain_sum += gain ;
         loss_sum += loss ;
@@ -247,7 +135,6 @@ void rsi(int x, int n, int maxPos, int minPos, string start_date,int  oversold_t
         RS = avgGain/avgLoss ;
 
         RSI = 100.0*(1.0 - (1.0/(1.0+RS))) ;
-            // cout<<RSI<<endl; 
        
             if( RSI < oversold_threshold){
                 if(x < maxPos){
@@ -307,7 +194,7 @@ void rsi(int x, int n, int maxPos, int minPos, string start_date,int  oversold_t
     ofstream final("final_pnl.txt");
     final << to_string(money);
     final.close();
-
+    return money;
 }
 
 

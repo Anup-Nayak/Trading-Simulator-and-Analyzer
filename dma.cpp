@@ -7,38 +7,11 @@
 
 using namespace std;
 
-bool checkDate(string &start, string &end){
-    //DD/MM/YYYY
-    int year1 = stoi(start.substr(6,4));
-    int year2 = stoi(end.substr(6,4));
-    int month1 = stoi(start.substr(3,2));
-    int month2 = stoi(end.substr(3,2));
-    int day1 = stoi(start.substr(0,2));
-    int day2 = stoi(end.substr(0,2));
-
-    if(year1 > year2){
-        return true;
-    }else if(year1 < year2){
-        return false;
-    }else{
-        if(month1 > month2){
-            return true;
-        }else if(month1 < month2){
-            return false;
-        }else{
-            if(day1 > day2){
-                return true;
-            }else if(day1 < day2){
-                return false;
-            }else{
-                return false;
-            }
-        }
-    }
-}
-
-void dma(int x, int n, double p,int maxPos, int minPos, string start_date){
-    ifstream file("data.csv");
+double dma(int x, int n, double p,int maxPos, int minPos, string start_date){
+    
+     
+ ifstream file("data_DMA.csv");
+    ifstream file2("extra_data_DMA.csv");
     ofstream cashflow("daily_cashflow.csv");
     ofstream order("order_statistics.csv");
 
@@ -49,18 +22,27 @@ void dma(int x, int n, double p,int maxPos, int minPos, string start_date){
         cout << "error anup : could not open file!" << endl;
     }
 
-    queue <double> bought;
-    queue <double> sold;
 
-    queue <double> n_days_data;
-   
-
-    double money = 0;
-
-   
     string line;
     getline(file, line); //header
-    getline(file,line); //first entry
+    getline(file2,line); 
+
+    vector<string> extra_data;
+
+    for(int i=0;i<n;i++){
+        getline(file2,line);
+        istringstream oneline(line);
+
+        string date;
+        string p;
+
+        getline(oneline, date, ',');
+        getline(oneline, p,'\n');
+
+        extra_data.push_back(p);
+    }
+
+    reverse(extra_data.begin(),extra_data.end());
 
     istringstream oneline(line);
 
@@ -69,8 +51,11 @@ void dma(int x, int n, double p,int maxPos, int minPos, string start_date){
 
     getline(oneline, date, ',');
     getline(oneline, p1,'\n');
-
-    double prevPrice = stod(p1);
+    
+    queue <double> bought;
+    queue <double> sold;
+    
+    queue <double> n_days_data;
     double price = 0;
     double sum = 0;
     double sum_sq = 0;
@@ -81,80 +66,22 @@ void dma(int x, int n, double p,int maxPos, int minPos, string start_date){
     double buyprice = 0 ;
     double sellprice = 0;
     int iter = 0 ;
+    double money = 0;
+   
 
-    while(checkDate(start_date,date)){
-        getline(file,line);
-        istringstream oneline(line);
-
-        getline(oneline, date, ',');
-        getline(oneline, p1,'\n');
-
-        price = stod(p1);
-
+    for(int i=1;i<n;i++){
+      
+        price = stod(extra_data[i]);
         n_days_data.push(price);
         sum += price ;
         sum_sq += pow(price,2);
         mean = sum / n;
         var = sum_sq - pow(mean,2);
         stand = sqrt(var);
-        if(iter > n-2){
-        queue_front = n_days_data.front();
-        sum -= queue_front ;
-        sum_sq -= pow(queue_front,2);
-        n_days_data.pop() ;
-        }
-        iter++ ;
+      
     }
       
-     price = stod(p1);
-     
-        n_days_data.push(price);
-        sum += price ;
-        sum_sq += pow(price,2);
-        
-        mean = sum / n;
-        var = (sum_sq/n) - pow(mean,2);
-        stand = sqrt(var);
-
-        buyprice  = mean + p*stand ;
-        sellprice = mean - p*stand ;
-
-            if( price >= buyprice ){
-                if(x < maxPos){
-                    x++;
-                    if(sold.empty()){
-                        bought.push(price);
-                    }else{
-                        sold.pop();
-                    }
-                    money = money - price;
-                    string w =  date + ",BUY" ;
-                    w = w + "," + to_string(1) + ","  + to_string(price) +  "\n";
-                    order << w;
-                }
-            }else if ( price <= sellprice ){
-                if (x > minPos){
-                    x--;
-                    if(bought.empty()){
-                        sold.push(price);
-                    }else{
-                        bought.pop();
-                    }
-                    money = money + price;
-                    string w =  date + ",SELL" ;
-                    w = w + "," + to_string(1) +  "," + to_string(price)  + "\n";
-                    order << w;
-                }
-            }
-       
-        prevPrice = price;
-        string w2 = date + "," + to_string(money) + "\n";
-        cashflow << w2;
-
-        queue_front = n_days_data.front();
-        sum -= queue_front ;
-        sum_sq -= pow(queue_front,2);
-        n_days_data.pop() ;
+   
 
     while(getline(file, line)){
         istringstream oneline(line);
@@ -203,7 +130,6 @@ void dma(int x, int n, double p,int maxPos, int minPos, string start_date){
                 }
             }
        
-        prevPrice = price;
         string w2 = date + "," + to_string(money) + "\n";
         cashflow << w2;
 
@@ -234,9 +160,8 @@ void dma(int x, int n, double p,int maxPos, int minPos, string start_date){
     ofstream final("final_pnl.txt");
     final << to_string(money);
     final.close();
-
+    return money;
 }
-
 
 int main(int argc, char *argv[]){
 
