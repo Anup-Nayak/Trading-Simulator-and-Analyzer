@@ -141,96 +141,6 @@ vector <vector <double>> multiply_matrix(vector <vector <double>> &m1, vector <v
     return result;
 }
 
-double determinant(vector<vector<double>>& matrix) {
-    int n = matrix.size();
-    
-    if (n == 1) {
-        return matrix[0][0];
-    }
-    
-    double det = 0;
-    vector<vector<double>> submatrix(n-1, vector<double>(n-1));
-    
-    
-    for (int i = 0; i < n; ++i) {
-        for (int row = 1; row < n; ++row) {
-            int col_index = 0;
-            for (int col = 0; col < n; ++col) {
-                if (col != i) {
-                    submatrix[row-1][col_index++] = matrix[row][col];
-                }
-            }
-        }
-        
-        double sign = (i % 2 == 0) ? 1 : -1; 
-        det += sign * matrix[0][i] * determinant(submatrix);
-    }
-    
-    return det;
-}
-
-int cofactor(vector<vector<double>>& matrix, int row, int col, int n) {
-  
-  double subN = n - 1;
-
-  vector<vector<double>> subMatrix(subN, vector<double>(subN));
-  int i1 = 0, j1 = 0;
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < n; j++) {
-      if (i != row && j != col) {
-        subMatrix[i1][j1] = matrix[i][j];
-        j1++;
-        if (j1 == subN) {
-          j1 = 0;
-          i1++;
-        }
-      }
-    }
-  }
-
-  double det = determinant(subMatrix);
-
-  int sign = ((row + col) % 2 == 0) ? 1 : -1;
-
-  return sign * det;
-}
-
-vector<vector<double>> adjoint(vector<vector<double>>& matrix, int n) {
-  
-  if (n != matrix.size() || n != matrix[0].size()) {
-    cout << "Matrix must be square." << endl;
-  }
-
-  vector<vector<double>> adj(n, vector<double>(n));
-
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < n; j++) {
-      adj[j][i] = cofactor(matrix, i, j, n);
-    }
-  }
-
-  return adj;
-}
-
-vector<vector<double>> inverse(vector<vector<double>>& matrix, int n) {
-    if (n != matrix.size() || n != matrix[0].size()) {
-        cout << "Matrix must be square." << endl;  
-    }
-
-  double det = determinant(matrix);
-  if (det == 0.0) {
-    cout << "Determinant must be non-zero" << endl;  
-  }
-
-  vector<vector<double>> adj = adjoint(matrix, n);
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < n; j++) {
-      adj[i][j] /= det;
-    }
-  }
-  return adj;
-}
-
 void matrix_inverse(vector<vector<double>> &A ,vector<vector<double>> &result){
     int n = A.size();
     vector<vector<double> > B(n, vector<double>(n * 2, 0));
@@ -288,12 +198,7 @@ void matrix_inverse(vector<vector<double>> &A ,vector<vector<double>> &result){
 
 }
 
-int main(int argc, char *argv[]){
-
-  int p = stoi(argv[1]);
-  int x = stoi(argv[2]);
-  int maxPos = x;
-  int minPos = -x;
+void lr(int p,int x, int maxPos, int minPos){
 
   ofstream cashflow("daily_cashflow.csv");
   ofstream order("order_statistics.csv");
@@ -477,5 +382,17 @@ int main(int argc, char *argv[]){
   final << to_string(money);
   final.close();
 
-  return 0;
+  
 }
+
+int main(int argc, char *argv[]){
+
+  int p = stoi(argv[1]);
+  int x = stoi(argv[2]);
+  int maxPos = x;
+  int minPos = -x;
+  lr(p,x,maxPos,minPos);
+return 0;
+
+}
+

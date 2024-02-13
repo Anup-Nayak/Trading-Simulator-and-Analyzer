@@ -15,6 +15,7 @@ int main(int argc, char *argv[]){
     string overbought_threshold = argv[7];
     string start_train_date = argv[8];
     string threshold = argv[9];
+    string adx_threshold = argv[10];
 
     if(strategy == "BASIC"){
         system("g++ basic.cpp -o a.exe");
@@ -29,6 +30,11 @@ int main(int argc, char *argv[]){
     }else if(strategy == "MACD"){
         system("g++ macd.cpp -o a.exe");
         string c = "./a.exe " + x ;
+        system(c.c_str());
+        // cout << "why2" << endl;
+    }else if(strategy == "ADX"){
+        system("g++ macd.cpp -o a.exe");
+        string c = "./a.exe " + x + " " + n + " " + adx_threshold ;
         system(c.c_str());
         // cout << "why2" << endl;
     }else if(strategy == "RSI"){

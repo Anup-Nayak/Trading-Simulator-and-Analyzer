@@ -101,6 +101,42 @@ if(strategy == "LINEAR_REGRESSION"):
     df.to_csv("extra_data2.csv", index=False)
 
     
+elif (strategy == "ADX"):
+
+    file_name = "data.csv"
+
+    start_date = datetime.strptime(startDate, "%d/%m/%Y").date()
+    # start_date = sdate - timedelta(days = 2)
+    end_date = datetime.strptime(endDate, "%d/%m/%Y").date()
+
+    df = nse.stock_df(stock_name,start_date,end_date)
+    header = ['DATE','CLOSE','HIGH','LOW']
+
+    df = df.loc[:,header]
+    df = df.iloc[::-1]
+
+    df['DATE'] = pd.to_datetime(df['DATE'])
+    df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
+
+    #csv file
+    df.to_csv(file_name, index=False)
+
+
+
+
+    end_date = start_date - timedelta(days = 1)
+    start_date = start_date - timedelta(days = 10)
+    df = nse.stock_df(stock_name,start_date,end_date)
+
+    df = df.loc[:,header]
+
+    df['DATE'] = pd.to_datetime(df['DATE'])
+
+    # Change date format to DD/MM/YYYY
+    df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
+
+    #csv file
+    df.to_csv("extra_data2.csv", index=False)
 
 elif (strategy == "MACD"):
     start_date = datetime.strptime(startDate, "%d/%m/%Y").date()

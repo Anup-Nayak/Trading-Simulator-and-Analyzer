@@ -37,7 +37,7 @@ bool checkDate(string &start, string &end){
     }
 }
 
-void basic(int x, int n, int maxPos, int minPos, string start_date){
+void basic(int x, int n, int maxPos, int minPos){
     ifstream file("data.csv");
     ifstream file2("extra_data.csv");
     ofstream cashflow("daily_cashflow.csv");
@@ -226,7 +226,7 @@ int main(int argc, char *argv[]){
     int maxPos = x;
     int minPos = -x;
 
-    basic(0,n,maxPos,minPos,start_date);
+    basic(0,n,maxPos,minPos);
     
     return 0;
 }

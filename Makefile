@@ -14,12 +14,13 @@ overbought_threshold := 0
 threshold := 0
 symbol1 := SBIN
 symbol2 := SBIN
+adx_threshold := 0;
 
 run: 
 	python3 main.py $(symbol) $(start_date) $(end_date) $(n) $(strategy) $(train_start_date) $(train_end_date) $(p) $(symbol1) $(symbol2)
 	
 	g++ decider.cpp -o a.exe
-	./a.exe $(strategy) $(x) $(n) $(p) $(start_date) $(oversold_threshold) $(overbought_threshold) $(train_start_date) $(threshold)
+	./a.exe $(strategy) $(x) $(n) $(p) $(start_date) $(oversold_threshold) $(overbought_threshold) $(train_start_date) $(threshold) $(adx_threshold)
 	
 clean:
 	rm -rf $(SYMBOL).*
@@ -28,3 +29,4 @@ clean:
 # make strategy=BASIC symbol=SBIN n=5 x=2 start_date="b" end_date="a"
 # make strategy="LINEAR_REGRESSION" symbol=SBIN x=3 p=2 train_start_date="a" train_end_date="b" start_date="c" end_date="d"
 # make strategy=RSI symbol=SBIN x=3 n=14 oversold_threshold=30 overbought_threshold=70 start_date="01/01/2023" end_date="01/01/2024"
+# make strategy=ADX symbol=SBIN x=3 n=14 adx_threshold=25 start_date="a" end_date="b"
