@@ -39,6 +39,7 @@ bool checkDate(string &start, string &end){
 
 void basic(int x, int n, int maxPos, int minPos, string start_date){
     ifstream file("data.csv");
+    ifstream file2("extra_data.csv");
     ofstream cashflow("daily_cashflow.csv");
     ofstream order("order_statistics.csv");
 
@@ -60,7 +61,24 @@ void basic(int x, int n, int maxPos, int minPos, string start_date){
 
     string line;
     getline(file, line); //header
-    getline(file,line); //first entry
+    getline(file2,line); 
+
+    vector<string> extra_data;
+
+    for(int i=0;i<n;i++){
+        getline(file2,line);
+        istringstream oneline(line);
+
+        string date;
+        string p;
+
+        getline(oneline, date, ',');
+        getline(oneline, p,'\n');
+
+        extra_data.push_back(p);
+    }
+
+    reverse(extra_data.begin(),extra_data.end());
 
     istringstream oneline(line);
 
@@ -70,20 +88,15 @@ void basic(int x, int n, int maxPos, int minPos, string start_date){
     getline(oneline, date, ',');
     getline(oneline, p,'\n');
 
-    double prevPrice = stod(p);
+    double prevPrice = stod(extra_data[0]);
     int days = 1;
     double price = 0;
     
 
 
-    while(checkDate(start_date,date)){
-        getline(file,line);
-        istringstream oneline(line);
+    for(int i=1;i<n;i++){
 
-        getline(oneline, date, ',');
-        getline(oneline, p,'\n');
-
-        price = stod(p);
+        price = stod(extra_data[i]);
 
         if(price < prevPrice){
             incFlag = false;
@@ -113,66 +126,6 @@ void basic(int x, int n, int maxPos, int minPos, string start_date){
 
 
     }
-
-    price = stod(p);
-
-    if(price < prevPrice){
-        incFlag = false;
-        if(decFlag){
-            days++;
-        }
-        else{
-            days = 1;
-            decFlag = true;
-        }
-    }else if(price > prevPrice){
-        
-        decFlag = false;
-        if(incFlag){
-            days++;
-        }
-        else{
-            days = 1;
-            incFlag = true;
-        }
-    }else{
-        days = 0;
-        incFlag = false;
-        decFlag = false;
-    }
-
-    if (days >= n){
-        if(incFlag){
-            if(x < maxPos){
-                x++;
-                if(sold.empty()){
-                    bought.push(price);
-                }else{
-                    sold.pop();
-                }
-                money = money - price;
-                string w =  date + ",BUY" ;
-                w = w + "," + to_string(1) + ","  + to_string(price) +  "\n";
-                order << w;
-            }
-        }else if (decFlag){
-            if (x > minPos){
-                x--;
-                if(bought.empty()){
-                    sold.push(price);
-                }else{
-                    bought.pop();
-                }
-                money = money + price;
-                string w =  date + ",SELL" ;
-                w = w + "," + to_string(1) +  "," + to_string(price)  + "\n";
-                order << w;
-            }
-        }
-    }
-    prevPrice = price;
-    string w2 = date + "," + to_string(money) + "\n";
-    cashflow << w2;
 
     while(getline(file, line)){
         istringstream oneline(line);

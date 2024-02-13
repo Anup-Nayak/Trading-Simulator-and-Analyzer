@@ -414,7 +414,7 @@ int main(int argc, char *argv[]){
       highpv = stod(highp);
       tradespv = stod(tradesp);
       
-      // cout << predicted_price << " " << closepv << endl;
+    //   cout << predicted_price << " " << closepv << endl;
 
       // value1 = ((100 + p )/(100))*closepv ;
       // value2 = ((100 - p )/(100))*closepv ;

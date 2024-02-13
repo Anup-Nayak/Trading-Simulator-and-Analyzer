@@ -14,6 +14,7 @@ int main(int argc, char *argv[]){
     string oversold_threshold = argv[6];
     string overbought_threshold = argv[7];
     string start_train_date = argv[8];
+    string threshold = argv[9];
 
     if(strategy == "BASIC"){
         system("g++ basic.cpp -o a.exe");
@@ -33,6 +34,11 @@ int main(int argc, char *argv[]){
     }else if(strategy == "RSI"){
         system("g++ rsi.cpp -o a.exe");
         string c = "./a.exe " + x + " " + n + " " + oversold_threshold + " " + overbought_threshold + " " + start_date;
+        system(c.c_str());
+        // cout << "why2" << endl;
+    }else if(strategy == "PAIRS"){
+        system("g++ pair.cpp -o a.exe");
+        string c = "./a.exe " + x + " " + n + " " + threshold ;
         system(c.c_str());
         // cout << "why2" << endl;
     }else if(strategy == "LINEAR_REGRESSION"){

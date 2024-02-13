@@ -11,12 +11,15 @@ train_end_date := 06/02/2024
 p := 0
 oversold_threshold := 0
 overbought_threshold := 0
+threshold := 0
+symbol1 := SBIN
+symbol2 := SBIN
 
 run: 
-	python3 main.py $(symbol) $(start_date) $(end_date) $(n) $(strategy) $(train_start_date) $(train_end_date) $(p)
+	python3 main.py $(symbol) $(start_date) $(end_date) $(n) $(strategy) $(train_start_date) $(train_end_date) $(p) $(symbol1) $(symbol2)
 	
 	g++ decider.cpp -o a.exe
-	./a.exe $(strategy) $(x) $(n) $(p) $(start_date) $(oversold_threshold) $(overbought_threshold) $(train_start_date)
+	./a.exe $(strategy) $(x) $(n) $(p) $(start_date) $(oversold_threshold) $(overbought_threshold) $(train_start_date) $(threshold)
 	
 clean:
 	rm -rf $(SYMBOL).*
