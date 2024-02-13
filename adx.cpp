@@ -169,7 +169,7 @@ double adx(int x, int n, int maxPos, int minPos, int adx_threshold)
     while (getline(file, line))
     {
 
-        getline(file, line);
+        // getline(file, line);
         istringstream oneline(line);
 
         getline(oneline, date, ',');
@@ -227,7 +227,7 @@ double adx(int x, int n, int maxPos, int minPos, int adx_threshold)
                 order << w;
             }
         }
-        else if (ADX_t > adx_threshold)
+        else if (ADX_t < adx_threshold)
         {
             if (x > minPos)
             {
