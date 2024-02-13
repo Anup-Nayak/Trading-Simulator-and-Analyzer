@@ -25,7 +25,7 @@ int main(int argc, char *argv[]){
         system("g++ basic.cpp -o a.exe");
         string c = "./a.exe " + x + " " + n + " " + start_date;
         system(c.c_str());
-        cout << "why1" << endl;
+        // cout << "why1" << endl;
     }else if(strategy == "DMA"){
         system("g++ dma.cpp -o a.exe");
         string c = "./a.exe " + x + " " + n + " " + p + " " + start_date;
@@ -72,7 +72,7 @@ int main(int argc, char *argv[]){
         system(c.c_str());
         // cout << "why2" << endl;
     }else{
-        cout << "why" << endl;
+        cout << "Enter a correct strategy!" << endl;
     }
     return 0;
 }

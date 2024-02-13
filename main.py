@@ -467,7 +467,7 @@ elif (strategy == "MACD"):
     #csv file
     df.to_csv("data_MACD.csv", index=False) 
 
-elif (strategy == "PAIRS" or strategy == "PAIR_STOP"):
+elif (strategy == "PAIRS" or strategy == "PAIRS_STOP"):
 
     start_date = datetime.strptime(startDate, "%d/%m/%Y").date()
     end_date = datetime.strptime(endDate, "%d/%m/%Y").date()
