@@ -18,12 +18,13 @@ adx_threshold := 0
 max_hold_days := 0
 c1 := 0
 c2 := 0
+stop_loss_threshold := 0
 
 run: 
 	python3 main.py $(symbol) $(start_date) $(end_date) $(n) $(strategy) $(train_start_date) $(train_end_date) $(p) $(symbol1) $(symbol2)
 	
 	g++ decider.cpp -o a.exe
-	./a.exe $(strategy) $(x) $(n) $(p) $(start_date) $(oversold_threshold) $(overbought_threshold) $(train_start_date) $(threshold) $(adx_threshold) $(max_hold_days) $(c1) $(c2)
+	./a.exe $(strategy) $(x) $(n) $(p) $(start_date) $(oversold_threshold) $(overbought_threshold) $(train_start_date) $(threshold) $(adx_threshold) $(max_hold_days) $(c1) $(c2) $(stop_loss_threshold)
 	
 	rm -f data_BASIC.csv
 	rm -f data_DMA.csv

@@ -352,8 +352,6 @@ elif(strategy == "BEST_OF_ALL"):
     df.to_csv(file_name, index=False)
 
 
-
-
     end_date = start_date - timedelta(days = 1)
     start_date = start_date - timedelta(days = 10)
     df = nse.stock_df(stock_name,start_date,end_date)
@@ -370,6 +368,47 @@ elif(strategy == "BEST_OF_ALL"):
 
     #adx over
 
+    #dmapp
+
+    start_date = datetime.strptime(startDate, "%d/%m/%Y").date()
+    end_date = datetime.strptime(endDate, "%d/%m/%Y").date()
+    df = nse.stock_df(stock_name,start_date,end_date)
+
+    header = ['DATE','CLOSE']
+
+    df = df.loc[:,header]
+    df = df.iloc[::-1]
+
+    df['DATE'] = pd.to_datetime(df['DATE'])
+
+    # Change date format to DD/MM/YYYY
+    df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
+
+    #csv file
+    file_name = "data_"+"DMA++"+".csv"
+    df.to_csv(file_name, index=False) 
+
+
+
+
+
+    end_date = start_date - timedelta(days = 1)
+    start_date = start_date - timedelta(days = 5*50)
+    df = nse.stock_df(stock_name,start_date,end_date)
+    header = ['DATE','CLOSE']
+
+    df = df.loc[:,header]
+
+    df['DATE'] = pd.to_datetime(df['DATE'])
+
+    # Change date format to DD/MM/YYYY
+    df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
+
+    #csv file
+    file_name = "extra_data_"+"DMA++"+".csv"
+    df.to_csv(file_name, index=False)    
+
+    #dmapp over
 
 elif (strategy == "ADX"):
 
@@ -428,7 +467,7 @@ elif (strategy == "MACD"):
     #csv file
     df.to_csv("data_MACD.csv", index=False) 
 
-elif (strategy == "PAIRS"):
+elif (strategy == "PAIRS" or strategy == "PAIR_STOP"):
 
     start_date = datetime.strptime(startDate, "%d/%m/%Y").date()
     end_date = datetime.strptime(endDate, "%d/%m/%Y").date()
@@ -545,7 +584,6 @@ elif( strategy == "BASIC" or strategy == "DMA" or strategy == "DMA++" or strateg
     #csv file
     file_name = "extra_data_"+strategy+".csv"
     df.to_csv(file_name, index=False)
-
 
 else:
 

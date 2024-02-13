@@ -19,6 +19,7 @@ int main(int argc, char *argv[]){
     string mhd = argv[11];
     string c1 = argv[12];
     string c2 = argv[13];
+    string stop_loss_threshold = argv[14];
 
     if(strategy == "BASIC"){
         system("g++ basic.cpp -o a.exe");
@@ -53,6 +54,11 @@ int main(int argc, char *argv[]){
     }else if(strategy == "PAIRS"){
         system("g++ pair.cpp -o a.exe");
         string c = "./a.exe " + x + " " + n + " " + p + " " + threshold ;
+        system(c.c_str());
+        // cout << "why2" << endl;
+    }else if(strategy == "PAIRS_STOP"){
+        system("g++ stop_loss.cpp -o a.exe");
+        string c = "./a.exe " + x + " " + n + " " + p + " " + threshold + " " + stop_loss_threshold ;
         system(c.c_str());
         // cout << "why2" << endl;
     }else if(strategy == "LINEAR_REGRESSION"){
