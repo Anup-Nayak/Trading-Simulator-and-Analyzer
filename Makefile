@@ -14,13 +14,33 @@ overbought_threshold := 0
 threshold := 0
 symbol1 := SBIN
 symbol2 := SBIN
-adx_threshold := 0;
+adx_threshold := 0
+max_hold_days := 0
+c1 := 0
+c2 := 0
 
 run: 
 	python3 main.py $(symbol) $(start_date) $(end_date) $(n) $(strategy) $(train_start_date) $(train_end_date) $(p) $(symbol1) $(symbol2)
 	
 	g++ decider.cpp -o a.exe
-	./a.exe $(strategy) $(x) $(n) $(p) $(start_date) $(oversold_threshold) $(overbought_threshold) $(train_start_date) $(threshold) $(adx_threshold)
+	./a.exe $(strategy) $(x) $(n) $(p) $(start_date) $(oversold_threshold) $(overbought_threshold) $(train_start_date) $(threshold) $(adx_threshold) $(max_hold_days) $(c1) $(c2)
+	
+	rm -f data_BASIC.csv
+	rm -f data_DMA.csv
+	rm -f data_lr.csv
+	rm -f data_MACD.csv
+	rm -f data_RSI.csv
+	rm -f extra_data_BASIC.csv
+	rm -f extra_data_DMA.csv
+	rm -f extra_data_RSI.csv
+	rm -f extra_data1_lr.csv
+	rm -f extra_data2_lr.csv
+	rm -f data1.csv
+	rm -f data2.csv
+	rm -f extra_data1.csv
+	rm -f extra_data2.csv
+	rm -f *.exe
+	rm -f train.csv
 	
 clean:
 	rm -rf $(SYMBOL).*

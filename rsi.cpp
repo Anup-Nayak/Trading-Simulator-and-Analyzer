@@ -8,7 +8,7 @@
 using namespace std;
 
 
-double rsi(int x, int n, int maxPos, int minPos, string start_date,int  oversold_threshold,int overbought_threshold){
+double rsi(int x, int n, int maxPos, int minPos, int  oversold_threshold,int overbought_threshold){
      ifstream file("data_RSI.csv");
     ifstream file2("extra_data_RSI.csv");
     ofstream cashflow("daily_cashflow.csv");
@@ -209,7 +209,7 @@ int main(int argc, char *argv[]){
     string start_date = argv[5]; 
     int maxPos = x;
     int minPos = -x;
-    rsi(0,n,maxPos,minPos,start_date,s,b);
+    rsi(0,n,maxPos,minPos,s,b);
     
     return 0;
 }

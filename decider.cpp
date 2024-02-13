@@ -16,6 +16,9 @@ int main(int argc, char *argv[]){
     string start_train_date = argv[8];
     string threshold = argv[9];
     string adx_threshold = argv[10];
+    string mhd = argv[11];
+    string c1 = argv[12];
+    string c2 = argv[13];
 
     if(strategy == "BASIC"){
         system("g++ basic.cpp -o a.exe");
@@ -27,13 +30,18 @@ int main(int argc, char *argv[]){
         string c = "./a.exe " + x + " " + n + " " + p + " " + start_date;
         system(c.c_str());
         // cout << "why2" << endl;
+    }else if(strategy == "DMA++"){
+        system("g++ dmapp.cpp -o a.exe");
+        string c = "./a.exe " + x + " " + n + " " + p + " " + mhd + " " + c1 + " " + c2;
+        system(c.c_str());
+        // cout << "whyyyyyyyyyyyyyyyyyy2" << endl;
     }else if(strategy == "MACD"){
         system("g++ macd.cpp -o a.exe");
         string c = "./a.exe " + x ;
         system(c.c_str());
         // cout << "why2" << endl;
     }else if(strategy == "ADX"){
-        system("g++ macd.cpp -o a.exe");
+        system("g++ adx.cpp -o a.exe");
         string c = "./a.exe " + x + " " + n + " " + adx_threshold ;
         system(c.c_str());
         // cout << "why2" << endl;
@@ -44,12 +52,17 @@ int main(int argc, char *argv[]){
         // cout << "why2" << endl;
     }else if(strategy == "PAIRS"){
         system("g++ pair.cpp -o a.exe");
-        string c = "./a.exe " + x + " " + n + " " + threshold ;
+        string c = "./a.exe " + x + " " + n + " " + p + " " + threshold ;
         system(c.c_str());
         // cout << "why2" << endl;
     }else if(strategy == "LINEAR_REGRESSION"){
         system("g++ linear.cpp -o a.exe");
         string c = "./a.exe " + p + " " + x;
+        system(c.c_str());
+        // cout << "why2" << endl;
+    }else if(strategy == "BEST_OF_ALL"){
+        system("g++ best.cpp -o a.exe");
+        string c = "./a.exe ";
         system(c.c_str());
         // cout << "why2" << endl;
     }else{

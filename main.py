@@ -100,9 +100,241 @@ if(strategy == "LINEAR_REGRESSION"):
     #csv file
     df.to_csv("extra_data2_lr.csv", index=False)
 
+elif(strategy == "BEST_OF_ALL"):
+
+    #basic
+    start_date = datetime.strptime(startDate, "%d/%m/%Y").date()
+    end_date = datetime.strptime(endDate, "%d/%m/%Y").date()
+    df = nse.stock_df(stock_name,start_date,end_date)
+
+    header = ['DATE','CLOSE']
+
+    df = df.loc[:,header]
+    df = df.iloc[::-1]
+
+    df['DATE'] = pd.to_datetime(df['DATE'])
+
+    # Change date format to DD/MM/YYYY
+    df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
+
+    #csv file
+    file_name = "data_"+"BASIC"+".csv"
+    df.to_csv(file_name, index=False) 
+
+
+
+
+
+    end_date = start_date - timedelta(days = 1)
+    start_date = start_date - timedelta(days = 5*7)
+    df = nse.stock_df(stock_name,start_date,end_date)
+    header = ['DATE','CLOSE']
+
+    df = df.loc[:,header]
+
+    df['DATE'] = pd.to_datetime(df['DATE'])
+
+    # Change date format to DD/MM/YYYY
+    df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
+
+    #csv file
+    file_name = "extra_data_"+"BASIC"+".csv"
+    df.to_csv(file_name, index=False)
+
+    #basic over
+
+
+
+
+
+    #linear reg
+    start_date = datetime.strptime(startDate, "%d/%m/%Y").date()
+    start_date = start_date - timedelta(days = 365)
+
+    end_date = datetime.strptime(startDate, "%d/%m/%Y").date()
+    train_file = "train.csv"
+
+    df = nse.stock_df(stock_name,start_date,end_date)
+    header = ['DATE','CLOSE','OPEN','VWAP','LOW','HIGH','NO OF TRADES']
+
+    df = df.loc[:,header]
+    df = df.iloc[::-1]
+
+    df['DATE'] = pd.to_datetime(df['DATE'])
+    df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
+
+    #csv file
+    df.to_csv(train_file, index=False)
+
+
+
+    start_date = datetime.strptime(startDate, "%d/%m/%Y").date()
+    end_date = datetime.strptime(endDate, "%d/%m/%Y").date()
+    end_date = start_date - timedelta(days = 1)
+    start_date = start_date - timedelta(days = 10)
+    df = nse.stock_df(stock_name,start_date,end_date)
+
+    df = df.loc[:,header]
+
+    df['DATE'] = pd.to_datetime(df['DATE'])
+
+    # Change date format to DD/MM/YYYY
+    df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
+
+    #csv file
+    df.to_csv("extra_data1_lr.csv", index=False)
+
+
+    file_name = "data_lr.csv"
+
+    start_date = datetime.strptime(startDate, "%d/%m/%Y").date()
+    # start_date = sdate - timedelta(days = 2)
+    end_date = datetime.strptime(endDate, "%d/%m/%Y").date()
+
+    df = nse.stock_df(stock_name,start_date,end_date)
+    header = ['DATE','CLOSE','OPEN','VWAP','LOW','HIGH','NO OF TRADES']
+
+    df = df.loc[:,header]
+    df = df.iloc[::-1]
+
+    df['DATE'] = pd.to_datetime(df['DATE'])
+    df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
+
+    #csv file
+    df.to_csv(file_name, index=False)
+
+
+
+
+    end_date = start_date - timedelta(days = 1)
+    start_date = start_date - timedelta(days = 10)
+    df = nse.stock_df(stock_name,start_date,end_date)
+
+    df = df.loc[:,header]
+
+    df['DATE'] = pd.to_datetime(df['DATE'])
+
+    # Change date format to DD/MM/YYYY
+    df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
+
+    #csv file
+    df.to_csv("extra_data2_lr.csv", index=False)
+
+    #linear reg over
+
+
+    #dma
+    
+    start_date = datetime.strptime(startDate, "%d/%m/%Y").date()
+    end_date = datetime.strptime(endDate, "%d/%m/%Y").date()
+    df = nse.stock_df(stock_name,start_date,end_date)
+
+    header = ['DATE','CLOSE']
+
+    df = df.loc[:,header]
+    df = df.iloc[::-1]
+
+    df['DATE'] = pd.to_datetime(df['DATE'])
+
+    # Change date format to DD/MM/YYYY
+    df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
+
+    #csv file
+    file_name = "data_"+"DMA"+".csv"
+    df.to_csv(file_name, index=False) 
+
+
+
+
+
+    end_date = start_date - timedelta(days = 1)
+    start_date = start_date - timedelta(days = 5*50)
+    df = nse.stock_df(stock_name,start_date,end_date)
+    header = ['DATE','CLOSE']
+
+    df = df.loc[:,header]
+
+    df['DATE'] = pd.to_datetime(df['DATE'])
+
+    # Change date format to DD/MM/YYYY
+    df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
+
+    #csv file
+    file_name = "extra_data_"+"DMA"+".csv"
+    df.to_csv(file_name, index=False)
+
+    #dma over
+
+    #macd
+
+    start_date = datetime.strptime(startDate, "%d/%m/%Y").date()
+    end_date = datetime.strptime(endDate, "%d/%m/%Y").date()
+
+    df = nse.stock_df(stock_name,start_date,end_date)
+
+    header = ['DATE','CLOSE']
+
+
+    df = df.loc[:,header]
+    df = df.iloc[::-1]
+
+    df['DATE'] = pd.to_datetime(df['DATE'])
+
+    # Change date format to DD/MM/YYYY
+    df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
+
+    #csv file
+    df.to_csv("data_MACD.csv", index=False)
+
+    #macd over
+
+
+    #rsi
+
+    start_date = datetime.strptime(startDate, "%d/%m/%Y").date()
+    end_date = datetime.strptime(endDate, "%d/%m/%Y").date()
+    df = nse.stock_df(stock_name,start_date,end_date)
+
+    header = ['DATE','CLOSE']
+
+    df = df.loc[:,header]
+    df = df.iloc[::-1]
+
+    df['DATE'] = pd.to_datetime(df['DATE'])
+
+    # Change date format to DD/MM/YYYY
+    df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
+
+    #csv file
+    file_name = "data_"+"RSI"+".csv"
+    df.to_csv(file_name, index=False) 
+
+
+
+
+
+    end_date = start_date - timedelta(days = 1)
+    start_date = start_date - timedelta(days = 5*14)
+    df = nse.stock_df(stock_name,start_date,end_date)
+    header = ['DATE','CLOSE']
+
+    df = df.loc[:,header]
+
+    df['DATE'] = pd.to_datetime(df['DATE'])
+
+    # Change date format to DD/MM/YYYY
+    df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
+
+    #csv file
+    file_name = "extra_data_"+"RSI"+".csv"
+    df.to_csv(file_name, index=False)
+
+    #rsi over
+
+
 elif (strategy == "ADX"):
 
-    file_name = "data_adx.csv"
+    file_name = "data_ADX.csv"
 
     start_date = datetime.strptime(startDate, "%d/%m/%Y").date()
     # start_date = sdate - timedelta(days = 2)
@@ -135,7 +367,7 @@ elif (strategy == "ADX"):
     df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
 
     #csv file
-    df.to_csv("extra_data2_adx.csv", index=False)
+    df.to_csv("extra_data2_ADX.csv", index=False)
 
 elif (strategy == "MACD"):
     start_date = datetime.strptime(startDate, "%d/%m/%Y").date()
@@ -234,47 +466,7 @@ elif (strategy == "PAIRS"):
     #csv file
     df2.to_csv("extra_data2.csv", index=False)
 
-elif(strategy == "BEST_OF_ALL"):
-    print("yes")
-
-elif (strategy == "test"):
-    
-    start_date = datetime.strptime(startDate, "%d/%m/%Y").date()
-    end_date = datetime.strptime(endDate, "%d/%m/%Y").date()
-    df = nse.stock_df(stock_name,start_date,end_date)
-
-    header = ['DATE','CLOSE']
-
-
-    df = df.loc[:,header]
-    df = df.iloc[::-1]
-
-    df['DATE'] = pd.to_datetime(df['DATE'])
-
-    # Change date format to DD/MM/YYYY
-    df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
-
-    #csv file
-    df.to_csv(file_name, index=False) 
-    
-
-    end_date = start_date - timedelta(days = 1)
-    start_date = start_date - timedelta(days = 10)
-    df = nse.stock_df(stock_name,start_date,end_date)
-    header = ['DATE','CLOSE']
-
-
-    df = df.loc[:,header]
-
-    df['DATE'] = pd.to_datetime(df['DATE'])
-
-    # Change date format to DD/MM/YYYY
-    df['DATE'] = df['DATE'].dt.strftime('%d/%m/%Y')
-
-    #csv file
-    df.to_csv("extra_data", index=False) 
-
-elif(strategy == "BASIC" or strategy == "DMA" or strategy == "DMA++" or strategy == "RSI" or strategy == "ADX") :
+elif( strategy == "BASIC" or strategy == "DMA" or strategy == "DMA++" or strategy == "RSI" or strategy == "ADX") :
 
 
     start_date = datetime.strptime(startDate, "%d/%m/%Y").date()

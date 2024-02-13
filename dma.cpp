@@ -7,7 +7,7 @@
 
 using namespace std;
 
-double dma(int x, int n, double p,int maxPos, int minPos, string start_date){
+double dma(int x, int n, double p,int maxPos, int minPos){
     
      
  ifstream file("data_DMA.csv");
@@ -173,7 +173,7 @@ int main(int argc, char *argv[]){
     int maxPos = x;
     int minPos = -x;
 
-    dma(0,n,p,maxPos,minPos,start_date);
+    dma(0,n,p,maxPos,minPos);
     
     return 0;
 }
