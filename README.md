@@ -10,29 +10,24 @@ Plot : times won out of 100 vs type of strategy
     timeframe = start_date - end_date;
 
 Over avg timeframe of 1 year:
+![1Y](1Y.png)
 
 Over avg timeframe of 3 years:
+![3Y](3Y.png)
 
 Over avg timeframe of 5 years:
+![5Y](5Y.png)
 
 Over avg timeframe of 7 years:
+![7Y](7Y.png)
 
 Over avg timeframe of 10 years:
+![10Y](10Y.png)
 
-
-Over timeframes:
+Over random timeframes:
 
 ![RANDOM](RANDOM.png)
 
-![1Y](1Y.png)
-
-![3Y](3Y.png)
-
-![5Y](5Y.png)
-
-![7Y](7Y.png)
-
-![10Y](10Y.png)
 
 Results:
 
