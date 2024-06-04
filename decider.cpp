@@ -22,55 +22,55 @@ int main(int argc, char *argv[]){
     string stop_loss_threshold = argv[14];
 
     if(strategy == "BASIC"){
-        system("g++ basic.cpp -o a.exe");
+        system("g++ strategies/basic.cpp -o a.exe");
         string c = "./a.exe " + x + " " + n + " " + start_date;
         system(c.c_str());
-        // cout << "why1" << endl;
+        
     }else if(strategy == "DMA"){
-        system("g++ dma.cpp -o a.exe");
+        system("g++ strategies/dma.cpp -o a.exe");
         string c = "./a.exe " + x + " " + n + " " + p + " " + start_date;
         system(c.c_str());
-        // cout << "why2" << endl;
+        
     }else if(strategy == "DMA++"){
-        system("g++ dmapp.cpp -o a.exe");
+        system("g++ strategies/dmapp.cpp -o a.exe");
         string c = "./a.exe " + x + " " + n + " " + p + " " + mhd + " " + c1 + " " + c2;
         system(c.c_str());
-        // cout << "whyyyyyyyyyyyyyyyyyy2" << endl;
+        
     }else if(strategy == "MACD"){
-        system("g++ macd.cpp -o a.exe");
+        system("g++ strategies/macd.cpp -o a.exe");
         string c = "./a.exe " + x ;
         system(c.c_str());
-        // cout << "why2" << endl;
+        
     }else if(strategy == "ADX"){
-        system("g++ adx.cpp -o a.exe");
+        system("g++ strategies/adx.cpp -o a.exe");
         string c = "./a.exe " + x + " " + n + " " + adx_threshold ;
         system(c.c_str());
-        // cout << "why2" << endl;
+        
     }else if(strategy == "RSI"){
-        system("g++ rsi.cpp -o a.exe");
+        system("g++ strategies/rsi.cpp -o a.exe");
         string c = "./a.exe " + x + " " + n + " " + oversold_threshold + " " + overbought_threshold + " " + start_date;
         system(c.c_str());
-        // cout << "why2" << endl;
+        
     }else if(strategy == "PAIRS"){
-        system("g++ pair.cpp -o a.exe");
+        system("g++ strategies/pair.cpp -o a.exe");
         string c = "./a.exe " + x + " " + n + " " + p + " " + threshold ;
         system(c.c_str());
-        // cout << "why2" << endl;
+        
     }else if(strategy == "PAIRS_STOP"){
-        system("g++ stop_loss.cpp -o a.exe");
+        system("g++ strategies/stop_loss.cpp -o a.exe");
         string c = "./a.exe " + x + " " + n + " " + p + " " + threshold + " " + stop_loss_threshold ;
         system(c.c_str());
-        // cout << "why2" << endl;
+        
     }else if(strategy == "LINEAR_REGRESSION"){
-        system("g++ linear.cpp -o a.exe");
+        system("g++ strategies/linear.cpp -o a.exe");
         string c = "./a.exe " + p + " " + x;
         system(c.c_str());
-        // cout << "why2" << endl;
+        
     }else if(strategy == "BEST_OF_ALL"){
-        system("g++ best.cpp -o a.exe");
+        system("g++ strategies/best.cpp -o a.exe");
         string c = "./a.exe ";
         system(c.c_str());
-        // cout << "why2" << endl;
+        
     }else{
         cout << "Enter a correct strategy!" << endl;
     }

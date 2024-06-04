@@ -23,8 +23,6 @@ file_name = "data.csv"
 
 if(strategy == "LINEAR_REGRESSION"):
     
-
-
     train_file = "train.csv"
 
     start_date = datetime.strptime(tDateS, "%d/%m/%Y").date()
